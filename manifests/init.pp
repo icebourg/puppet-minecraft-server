@@ -15,7 +15,7 @@ class minecraft-server {
 		$user 	= "minecraft",
 		$group 	= "minecraft",
 		$ensure	= "present",
-		$memory	= "256M"
+		$memory	= "256M",
 		$snapshot	= false
 	) {
 		
