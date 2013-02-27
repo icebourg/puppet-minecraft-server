@@ -1,0 +1,46 @@
+#!/bin/bash
+
+### BEGIN INIT INFO
+# Provides:   minecraft
+# Required-Start: $local_fs $remote_fs
+# Required-Stop:  $local_fs $remote_fs
+# Should-Start:   $network
+# Should-Stop:    $network
+# Default-Start:  2 3 4 5
+# Default-Stop:   0 1 6
+# Short-Description:    Minecraft server
+# Description:    Starts the minecraft server
+### END INIT INFO
+
+#Settings
+NAME="<%= $title %>"
+USER="<%= $user %>"
+PATH="<%= $path %>"
+SERVER_PATH="<%= $server_path %>"
+MEM="<%= $memory %>"
+
+PIDFILE=$PATH/run.pid
+ 
+case "$1" in
+  start)
+    /sbin/start-stop-daemon --make-pidfile --pidfile $PIDFILE --background --chuid $USER --start --exec /usr/bin/java -- -Xms$MEM -Xmx$MEM -jar $SERVER_PATH nogui
+    ;;
+  stop)
+	PID=$(cat $PIDFILE)
+	echo "Stopping ..."
+    /sbin/start-stop-daemon --stop --pidfile $PIDFILE
+	while [ -x /proc/${PID} ]
+	do
+		echo "Waiting to shutdown ..."
+	sleep 1
+	done
+	echo "Stopped"
+	/bin/rm $PIDFILE
+    ;;
+  *)
+    echo "Usage: $0 {start|stop}"
+    exit 1
+    ;;
+esac
+ 
+exit 0

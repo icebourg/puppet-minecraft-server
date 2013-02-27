@@ -15,6 +15,7 @@ class minecraft-server {
 		$user 	= "minecraft",
 		$group 	= "minecraft",
 		$ensure	= "present",
+		$memory	= "256M"
 		$snapshot	= false
 	) {
 		
@@ -59,6 +60,15 @@ class minecraft-server {
 			ensure	=> file,
 			content	=> $version,
 			require	=> Exec['download-server']
+		}
+		
+		# create a start up script for this minecraft server
+		file { "/etc/init.d/minecraft-$title":
+			content	=> template ("minecraft-server/init.erb"),
+			mode	=> 755,
+			owner	=> root,
+			group 	=> root,
+			rewuire	=> Exec['download-server']
 		}
 	}
 }
