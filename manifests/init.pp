@@ -68,7 +68,7 @@ class minecraft-server {
 			mode	=> 755,
 			owner	=> root,
 			group 	=> root,
-			rewuire	=> Exec['download-server']
+			require	=> Exec['download-server']
 		}
 	}
 }
