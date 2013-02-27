@@ -13,11 +13,11 @@
 ### END INIT INFO
 
 #Settings
-NAME="<%= $title %>"
-USER="<%= $user %>"
-PATH="<%= $path %>"
-SERVER_PATH="<%= $server_path %>"
-MEM="<%= $memory %>"
+NAME="<%= @title %>"
+USER="<%= @user %>"
+PATH="<%= @path %>"
+SERVER_PATH="<%=@$server_path %>"
+MEM="<%= @memory %>"
 
 PIDFILE=$PATH/run.pid
  
