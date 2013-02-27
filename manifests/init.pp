@@ -11,6 +11,7 @@ class minecraft-server {
 	# snapshots: http://assets.minecraft.net/13w09a/minecraft_server.jar
 	
 	define manage (
+		$properties	= {},
 		$path	= "/home/minecraft",
 		$user 	= "minecraft",
 		$group 	= "minecraft",
@@ -70,5 +71,37 @@ class minecraft-server {
 			group 	=> root,
 			require	=> Exec['download-server']
 		}
+		
+		# Manage server properties (port, etc)
+		if keys($properties) {
+			
+			file { "$path/server.properties":
+				ensure => file,
+			}
+			
+			$defaults = {
+				path   => "$path/server.properties"
+			}
+			
+			# since there are no real loops in puppet,
+			# we have to resort to hacks like this. See:
+			# http://docs.puppetlabs.com/references/latest/function.html#createresources
+			
+			create_resources(minecraft-server::property, $properties, $defaults)
+			
+		}
+	}
+	
+	define property(
+		$value,
+		$path
+	) {
+		
+		file_line { $name:
+		    path   => $path,
+		    line   => "$name=$value",
+		    match  => "$name=.*"
+		  }
+	
 	}
 }
