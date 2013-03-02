@@ -95,14 +95,15 @@ class minecraft-server {
 	}
 	
 	define property(
+		$key,
 		$value,
 		$path
 	) {
 		
-		file_line { "$name-$path":
+		file_line { $name:
 		    path   => $path,
-		    line   => "$name=$value",
-		    match  => "$name=.*"
+		    line   => "$key=$value",
+		    match  => "$key=.*"
 		  }
 	
 	}
