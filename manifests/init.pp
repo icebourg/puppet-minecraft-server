@@ -62,7 +62,7 @@ class minecraft-server {
 		file { "$path/version":
 			ensure	=> file,
 			content	=> $version,
-			require	=> Exec['download-server']
+			require	=> Exec["download-server-$title"]
 		}
 		
 		# create a start up script for this minecraft server
@@ -71,7 +71,7 @@ class minecraft-server {
 			mode	=> 755,
 			owner	=> root,
 			group 	=> root,
-			require	=> Exec['download-server']
+			require	=> Exec["download-server-$title"]
 		}
 		
 		# Manage server properties (port, etc)
