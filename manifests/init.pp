@@ -22,11 +22,13 @@ class minecraft-server {
 		
 		$server_path = "${path}/minecraft_server.jar"
 		
-		group { $group:
+		group { "$group-$title":
+			name		=> $group,
 			ensure	=> $ensure
 		}
 		
-		user { $user:
+		user { "$user-$title":
+			name	=> $user,
 			ensure	=> $ensure,
 			home	=> $path,
 			shell	=> "/bin/false",
@@ -35,9 +37,9 @@ class minecraft-server {
 		
 		file { $path:
 			ensure	=> directory,
-			owner	=> $user,
+			owner		=> $user,
 			group 	=> $group,
-			mode	=> 755
+			mode		=> 755
 		}
 		
 		if $snapshot {
@@ -50,7 +52,7 @@ class minecraft-server {
 			$version= "stable"
 		}
 		
-		exec { "download-server":
+		exec { "download-server-$title":
 			command	=> "wget -O $server_path $url",
 			unless	=> "test `cat $path/version` = '$version'",
 			require	=> File[$path],
@@ -97,7 +99,7 @@ class minecraft-server {
 		$path
 	) {
 		
-		file_line { $name:
+		file_line { "$name-$path":
 		    path   => $path,
 		    line   => "$name=$value",
 		    match  => "$name=.*"
