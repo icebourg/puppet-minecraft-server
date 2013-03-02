@@ -23,7 +23,7 @@ PIDFILE=$PATH/run.pid
  
 case "$1" in
   start)
-    /sbin/start-stop-daemon --make-pidfile --pidfile $PIDFILE --background --chuid $USER --start --exec /usr/bin/java -- -Xms$MEM -Xmx$MEM -jar $SERVER_PATH nogui
+    /sbin/start-stop-daemon -d $PATH -m -p $PIDFILE --background --start --exec /usr/bin/java -- -Xms$MEM -Xmx$MEM -jar $SERVER_PATH nogui
 
     while [ ! -f $PIDFILE ]
     do
