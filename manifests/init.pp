@@ -22,10 +22,6 @@ class minecraft-server {
 		
 		$server_path = "${path}/minecraft_server.jar"
 		
-		# get the latest stable version by default
-		$url	= "https://s3.amazonaws.com/MinecraftDownload/launcher/minecraft_server.jar"
-		$version= "stable"
-		
 		group { $group:
 			ensure	=> $ensure
 		}
@@ -48,6 +44,10 @@ class minecraft-server {
 			# get a snapshot version
 			$url	= "http://assets.minecraft.net/$snapshot/minecraft_server.jar"
 			$version= $snapshot
+		} else {
+			# get the latest stable version by default
+			$url	= "https://s3.amazonaws.com/MinecraftDownload/launcher/minecraft_server.jar"
+			$version= "stable"
 		}
 		
 		exec { "download-server":
